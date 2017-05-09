@@ -6,6 +6,8 @@
  * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/smreactjs for more book information.
 ***/
+import Rx from "rx"
+import L from "leaflet"
 
 var codeLayers = {};
 var quakeLayer = L.layerGroup([]).addTo(map);

@@ -6,6 +6,8 @@
  * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/smreactjs for more book information.
 ***/
+import Rx from "rx"
+
 var canvas = document.createElement('canvas');
 var ctx = canvas.getContext("2d");
 document.body.appendChild(canvas);

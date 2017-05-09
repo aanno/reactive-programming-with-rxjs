@@ -9,10 +9,27 @@ SystemJS.config({
     "bundles": {
       "build.js": [
         "reactive-programming-with-rxjs-jspm/app.ts",
-        "npm:loglevel@1.4.1/lib/loglevel.js",
-        "npm:loglevel@1.4.1.json",
+        "reactive-programming-with-rxjs-jspm/earthquake/code.ts",
+        "github:Leaflet/Leaflet@0.7.3/dist/leaflet-src.js",
+        "github:Leaflet/Leaflet@0.7.3.json",
+        "npm:rx@4.1.0/index.js",
+        "npm:rx@4.1.0.json",
         "npm:jspm-nodelibs-process@0.2.1/process.js",
-        "npm:jspm-nodelibs-process@0.2.1.json"
+        "npm:jspm-nodelibs-process@0.2.1.json",
+        "npm:rx@4.1.0/dist/rx.time.js",
+        "npm:rx@4.1.0/dist/rx.js",
+        "npm:rx@4.1.0/dist/rx.testing.js",
+        "npm:rx@4.1.0/dist/rx.virtualtime.js",
+        "npm:rx@4.1.0/dist/rx.sorting.js",
+        "npm:rx@4.1.0/dist/rx.joinpatterns.js",
+        "npm:rx@4.1.0/dist/rx.experimental.js",
+        "npm:rx@4.1.0/dist/rx.coincidence.js",
+        "npm:rx@4.1.0/dist/rx.binding.js",
+        "npm:rx@4.1.0/dist/rx.backpressure.js",
+        "npm:rx@4.1.0/dist/rx.async.js",
+        "npm:rx@4.1.0/dist/rx.aggregates.js",
+        "npm:loglevel@1.4.1/lib/loglevel.js",
+        "npm:loglevel@1.4.1.json"
       ]
     }
   },
@@ -284,7 +301,8 @@ SystemJS.config({
     }
   },
   map: {
-    "@hot": "@empty"
+    "@hot": "@empty",
+    "leaflet": "github:Leaflet/Leaflet@0.7.3"
   }
 });
 
@@ -297,7 +315,8 @@ SystemJS.config({
   map: {
     "@types/loglevel": "npm:@types/loglevel@1.4.29",
     "loglevel": "npm:loglevel@1.4.1",
-    "process": "npm:jspm-nodelibs-process@0.2.1"
+    "process": "npm:jspm-nodelibs-process@0.2.1",
+    "rx": "npm:rx@4.1.0"
   },
   packages: {}
 });

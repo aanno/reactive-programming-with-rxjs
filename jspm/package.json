@@ -16,7 +16,9 @@
     "main": "app.js",
     "dependencies": {
       "@types/loglevel": "npm:@types/loglevel@^1.4.29",
-      "loglevel": "npm:loglevel@^1.4.1"
+      "leaflet": "github:Leaflet/Leaflet@0.7.3",
+      "loglevel": "npm:loglevel@^1.4.1",
+      "rx": "npm:rx@4.1.0"
     },
     "devDependencies": {
       "assert": "npm:jspm-nodelibs-assert@^0.2.0",
