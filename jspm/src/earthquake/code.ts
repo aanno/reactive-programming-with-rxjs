@@ -6,7 +6,7 @@
  * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/smreactjs for more book information.
 ***/
-import Rx from "rx"
+import Rx from "rx-dom"
 import L from "leaflet"
 
 var codeLayers = {};

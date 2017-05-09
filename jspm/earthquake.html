@@ -11,8 +11,11 @@
   <head>
     <meta charset="utf-8">
 
-    <link rel="stylesheet"
-    href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+
+    <script src="jspm_packages/system.js"></script>
+    <script src="jspm.config.js"></script>
+
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/rxjs/4.1.0/rx.all.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/rxjs-dom/7.0.3/rx.dom.js'></script>
@@ -61,6 +64,8 @@
       L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map); <!-- (4) -->
 
     </script>
-    <script src="code.js"></script> <!-- (5) -->
+    <script>
+      SystemJS.import('src/app.ts');
+    </script>
   </body>
 </html>

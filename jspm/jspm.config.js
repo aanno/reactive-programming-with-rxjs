@@ -12,6 +12,9 @@ SystemJS.config({
         "reactive-programming-with-rxjs-jspm/earthquake/code.ts",
         "github:Leaflet/Leaflet@0.7.3/dist/leaflet-src.js",
         "github:Leaflet/Leaflet@0.7.3.json",
+        "npm:rx-dom@4.0.4/rx.dom.node.js",
+        "npm:rx-dom@4.0.4.json",
+        "npm:rx-dom@4.0.4/dist/rx.dom.js",
         "npm:rx@4.1.0/index.js",
         "npm:rx@4.1.0.json",
         "npm:jspm-nodelibs-process@0.2.1/process.js",
@@ -301,8 +304,7 @@ SystemJS.config({
     }
   },
   map: {
-    "@hot": "@empty",
-    "leaflet": "github:Leaflet/Leaflet@0.7.3"
+    "@hot": "@empty"
   }
 });
 
@@ -313,10 +315,96 @@ SystemJS.config({
     "npm:*.json"
   ],
   map: {
+    "@types/rx-dom": "npm:@types/rx-dom@7.0.0",
+    "leaflet": "github:Leaflet/Leaflet@0.7.3",
+    "rx-dom": "npm:rx-dom@7.0.3",
     "@types/loglevel": "npm:@types/loglevel@1.4.29",
     "loglevel": "npm:loglevel@1.4.1",
     "process": "npm:jspm-nodelibs-process@0.2.1",
     "rx": "npm:rx@4.1.0"
   },
-  packages: {}
+  packages: {
+    "npm:@types/rx-dom@7.0.0": {
+      "map": {
+        "@types/rx": "npm:@types/rx@4.1.1"
+      }
+    },
+    "npm:@types/rx@4.1.1": {
+      "map": {
+        "@types/rx-lite-coincidence": "npm:@types/rx-lite-coincidence@4.0.2",
+        "@types/rx-core-binding": "npm:@types/rx-core-binding@4.0.3",
+        "@types/rx-lite-time": "npm:@types/rx-lite-time@4.0.2",
+        "@types/rx-lite-async": "npm:@types/rx-lite-async@4.0.1",
+        "@types/rx-lite-experimental": "npm:@types/rx-lite-experimental@4.0.1",
+        "@types/rx-lite-testing": "npm:@types/rx-lite-testing@4.0.1",
+        "@types/rx-lite-backpressure": "npm:@types/rx-lite-backpressure@4.0.2",
+        "@types/rx-lite": "npm:@types/rx-lite@4.0.4",
+        "@types/rx-lite-aggregates": "npm:@types/rx-lite-aggregates@4.0.2",
+        "@types/rx-lite-virtualtime": "npm:@types/rx-lite-virtualtime@4.0.2",
+        "@types/rx-lite-joinpatterns": "npm:@types/rx-lite-joinpatterns@4.0.1",
+        "@types/rx-core": "npm:@types/rx-core@4.0.3"
+      }
+    },
+    "npm:@types/rx-lite-coincidence@4.0.2": {
+      "map": {
+        "@types/rx-lite": "npm:@types/rx-lite@4.0.4"
+      }
+    },
+    "npm:@types/rx-lite-time@4.0.2": {
+      "map": {
+        "@types/rx-lite": "npm:@types/rx-lite@4.0.4"
+      }
+    },
+    "npm:@types/rx-lite-async@4.0.1": {
+      "map": {
+        "@types/rx-lite": "npm:@types/rx-lite@4.0.4"
+      }
+    },
+    "npm:@types/rx-lite-experimental@4.0.1": {
+      "map": {
+        "@types/rx-lite": "npm:@types/rx-lite@4.0.4"
+      }
+    },
+    "npm:@types/rx-lite-backpressure@4.0.2": {
+      "map": {
+        "@types/rx-lite": "npm:@types/rx-lite@4.0.4"
+      }
+    },
+    "npm:@types/rx-lite@4.0.4": {
+      "map": {
+        "@types/rx-core-binding": "npm:@types/rx-core-binding@4.0.3",
+        "@types/rx-core": "npm:@types/rx-core@4.0.3"
+      }
+    },
+    "npm:@types/rx-lite-testing@4.0.1": {
+      "map": {
+        "@types/rx-lite-virtualtime": "npm:@types/rx-lite-virtualtime@4.0.2"
+      }
+    },
+    "npm:@types/rx-core-binding@4.0.3": {
+      "map": {
+        "@types/rx-core": "npm:@types/rx-core@4.0.3"
+      }
+    },
+    "npm:@types/rx-lite-aggregates@4.0.2": {
+      "map": {
+        "@types/rx-lite": "npm:@types/rx-lite@4.0.4"
+      }
+    },
+    "npm:@types/rx-lite-virtualtime@4.0.2": {
+      "map": {
+        "@types/rx-lite": "npm:@types/rx-lite@4.0.4"
+      }
+    },
+    "npm:@types/rx-lite-joinpatterns@4.0.1": {
+      "map": {
+        "@types/rx-lite": "npm:@types/rx-lite@4.0.4"
+      }
+    },
+    "npm:rx-dom@7.0.3": {
+      "map": {
+        "rx": "npm:rx@4.1.0"
+      }
+    }
+  }
 });
