@@ -9,6 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "loglevel": "^1.4.1",
     "rx": "^4.1.0"
+  },
+  "devDependencies": {
+    "twit": "^2.2.5",
+    "ws": "^2.3.1"
   }
 }
