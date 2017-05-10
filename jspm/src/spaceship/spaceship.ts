@@ -145,7 +145,7 @@ function paintHeroShots(heroShots: ITarget[], enemies: IEnemy[]): void {
 const SPEED: number = 40
 const STAR_NUMBER: number = 250
 
-const StarStream = Rx.Observable.range(1, STAR_NUMBER)
+const StarStream: Observable<IStar[]> = Rx.Observable.range(1, STAR_NUMBER)
   .map(function () {
     return {
       x: parseInt(Math.random() * canvas.width),
@@ -168,7 +168,7 @@ const StarStream = Rx.Observable.range(1, STAR_NUMBER)
 
 const HERO_Y = canvas.height - 30
 const mouseMove = Rx.Observable.fromEvent(canvas, 'mousemove')
-const SpaceShip = mouseMove
+const SpaceShip: Observable<IShip> = mouseMove
   .map(function (event: MouseEvent) {
     return {x: event.clientX, y: HERO_Y}
   })
@@ -183,7 +183,7 @@ function isVisible(obj) {
 
 const ENEMY_FREQ = 1500
 const ENEMY_SHOOTING_FREQ = 750
-const Enemies = Rx.Observable.interval(ENEMY_FREQ)
+const Enemies: Observable<IEnemy[]> = Rx.Observable.interval(ENEMY_FREQ)
   .scan(function (enemyArray: IEnemy[]) {
     const enemy: IEnemy = {
       x: parseInt(Math.random() * canvas.width),
@@ -217,7 +217,7 @@ const playerFiring = Rx.Observable
   .sample(200)
   .timestamp()
 
-const HeroShots = Rx.Observable
+const HeroShots: Observable<ITarget> = Rx.Observable
   .combineLatest(
     playerFiring,
     SpaceShip,
@@ -227,16 +227,16 @@ const HeroShots = Rx.Observable
         x: spaceShip.x,
       }
     })
-  .distinctUntilChanged(function (shot: ITarget) {
+  .distinctUntilChanged(function (shot: IShot) {
     return shot.timestamp
   })
-  .scan(function (shotArray: IShot[], shot: IShot) {
+  .scan(function (shotArray: ITarget[], shot: IShot) {
     shotArray.push({x: shot.x, y: HERO_Y})
     return shotArray
   }, [])
 
-const ScoreSubject = new Rx.BehaviorSubject(0)
-const score = ScoreSubject.scan(function (prev, cur) {
+const ScoreSubject: Subject<number> = new Rx.BehaviorSubject(0)
+const score = ScoreSubject.scan(function (prev: number, cur: number) {
   return prev + cur
 }, 0).concat(Rx.Observable.return(0))
 
