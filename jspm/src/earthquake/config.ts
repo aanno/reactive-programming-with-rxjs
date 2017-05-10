@@ -5,10 +5,10 @@ export const QUAKE_URL = 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/' +
   'summary/all_day.geojsonp'
 
 function loadJSONP(url) {
-  var script = document.createElement('script')
+  const script = document.createElement('script')
   script.src = url
 
-  var head = document.getElementsByTagName('head')[0]
+  const head = document.getElementsByTagName('head')[0]
   head.appendChild(script)
 }
 
