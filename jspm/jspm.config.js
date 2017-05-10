@@ -291,8 +291,6 @@ SystemJS.config({
   },
   transpiler: "plugin-typescript",
   typescriptOptions: {
-    "module": "system",
-    "target": "es5",
     "tsconfig": true,
     "sourceMap": true
   },

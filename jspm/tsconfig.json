@@ -2,8 +2,8 @@
   "docUrl1": "https://www.typescriptlang.org/docs/handbook/tsconfig-json.html",
   "docUrl2": "https://www.typescriptlang.org/docs/handbook/compiler-options.html",
   "compilerOptions": {
-    "module": "es6",
-    "target": "es6",
+    "module": "system",
+    "target": "es5",
     "jsx": "preserve",
     "moduleResolution": "node",
     "allowJs": false,
