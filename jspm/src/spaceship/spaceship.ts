@@ -18,8 +18,16 @@ interface IShip extends ITarget {
 }
 
 interface IEnemy extends ITarget {
-  shots: ITarget[],
+  shots: IShot[],
   isDead: boolean,
+}
+
+interface IShot extends ITarget {
+  timestamp: number,
+}
+
+interface IStar extends ITarget {
+  size: number,
 }
 
 interface IActors {
@@ -45,11 +53,11 @@ function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-function paintStars(stars: any[]): void {
+function paintStars(stars: IStar[]): void {
   ctx.fillStyle = '#000000'
   ctx.fillRect(0, 0, canvas.width, canvas.height)
   ctx.fillStyle = '#ffffff'
-  stars.forEach(function (star) {
+  stars.forEach(function (star: IStar) {
     ctx.fillRect(star.x, star.y, star.size, star.size)
   })
 }
@@ -60,7 +68,7 @@ function gameOver(ship: IShip, enemies: IEnemy[]): boolean {
       return true
     }
 
-    return enemy.shots.some(function (shot: ITarget) {
+    return enemy.shots.some(function (shot: IShot) {
       return collision(ship, shot)
     })
   })
@@ -101,7 +109,7 @@ function paintEnemies(enemies: IEnemy[]): void {
       drawTriangle(enemy.x, enemy.y, 20, '#00ff00', 'down')
     }
 
-    enemy.shots.forEach(function (shot: ITarget) {
+    enemy.shots.forEach(function (shot: IShot) {
       shot.y += SHOOTING_SPEED
       drawTriangle(shot.x, shot.y, 5, '#00ffff', 'down')
     })
@@ -110,7 +118,7 @@ function paintEnemies(enemies: IEnemy[]): void {
 
 const SHOOTING_SPEED = 15
 const SCORE_INCREASE = 15
-function paintHeroShots(heroShots: ITarget, enemies: IEnemy[]): void {
+function paintHeroShots(heroShots: ITarget[], enemies: IEnemy[]): void {
   heroShots.forEach(function (shot: ITarget, i: number) {
     let enemies_length
     try {
@@ -134,8 +142,9 @@ function paintHeroShots(heroShots: ITarget, enemies: IEnemy[]): void {
   })
 }
 
-const SPEED = 40
-const STAR_NUMBER = 250
+const SPEED: number = 40
+const STAR_NUMBER: number = 250
+
 const StarStream = Rx.Observable.range(1, STAR_NUMBER)
   .map(function () {
     return {
@@ -145,9 +154,9 @@ const StarStream = Rx.Observable.range(1, STAR_NUMBER)
     }
   })
   .toArray()
-  .flatMap(function (starArray) {
+  .flatMap(function (starArray: IStar[]) {
     return Rx.Observable.interval(SPEED).map(function () {
-      starArray.forEach(function (star) {
+      starArray.forEach(function (star: IStar) {
         if (star.y >= canvas.height) {
           star.y = 0
         }
@@ -202,7 +211,7 @@ const playerFiring = Rx.Observable
     Rx.Observable.fromEvent(canvas, 'click'),
     Rx.Observable.fromEvent(canvas, 'keydown')
       .filter(function (evt: KeyboardEvent) {
-        return evt.keycode === 32
+        return evt.keyCode === 32
       }),
   )
   .sample(200)
@@ -212,16 +221,16 @@ const HeroShots = Rx.Observable
   .combineLatest(
     playerFiring,
     SpaceShip,
-    function (shotEvents, spaceShip) {
+    function (shotEvents, spaceShip: IShip) {
       return {
         timestamp: shotEvents.timestamp,
         x: spaceShip.x,
       }
     })
-  .distinctUntilChanged(function (shot) {
+  .distinctUntilChanged(function (shot: ITarget) {
     return shot.timestamp
   })
-  .scan(function (shotArray, shot) {
+  .scan(function (shotArray: IShot[], shot: IShot) {
     shotArray.push({x: shot.x, y: HERO_Y})
     return shotArray
   }, [])
@@ -231,7 +240,7 @@ const score = ScoreSubject.scan(function (prev, cur) {
   return prev + cur
 }, 0).concat(Rx.Observable.return(0))
 
-function renderScene(actors) {
+function renderScene(actors: IActors) {
   paintStars(actors.stars)
   paintSpaceShip(actors.spaceship.x, actors.spaceship.y)
   paintEnemies(actors.enemies)
@@ -241,7 +250,7 @@ function renderScene(actors) {
 
 Rx.Observable.combineLatest(
   StarStream, SpaceShip, Enemies, HeroShots, score,
-  function (stars, spaceship: IShip, enemies: IEnemy[], heroShots: ITarget[]): IActors {
+  function (stars: IStar[], spaceship: IShip, enemies: IEnemy[], heroShots: IShot[]): IActors {
     // console.log("score", score)
     return {
       stars: stars,
