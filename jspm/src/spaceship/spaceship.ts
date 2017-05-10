@@ -8,22 +8,43 @@
  ***/
 import Rx from "rx"
 
+interface ITarget {
+  x: number,
+  y: number,
+}
+
+interface IShip extends ITarget {
+  shots: ITarget[],
+}
+
+interface IEnemy extends ITarget {
+  shots: ITarget[],
+}
+
+interface IActors {
+  stars: any[],
+  spaceship: ITarget[],
+  enemies: ITarget[],
+  heroShots: ITarget[],
+  score: number,
+}
+
 const canvas: HTMLCanvasElement = document.createElement('canvas')
 const ctx: CanvasRenderingContext2D = canvas.getContext("2d")
 document.body.appendChild(canvas)
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 
-function isVisible(obj) {
+function isVisible(obj: ITarget): boolean {
   return obj.x > -40 && obj.x < canvas.width + 40 &&
     obj.y > -40 && obj.y < canvas.height + 40
 }
 
-function getRandomInt(min, max) {
+function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-function paintStars(stars) {
+function paintStars(stars: any[]) {
   ctx.fillStyle = '#000000'
   ctx.fillRect(0, 0, canvas.width, canvas.height)
   ctx.fillStyle = '#ffffff'
@@ -32,31 +53,31 @@ function paintStars(stars) {
   })
 }
 
-function gameOver(ship, enemies) {
-  return enemies.some(function (enemy) {
+function gameOver(ship: IShip, enemies: IEnemy[]): boolean {
+  return enemies.some(function (enemy: IEnemy) {
     if (collision(ship, enemy)) {
       return true
     }
 
-    return enemy.shots.some(function (shot) {
+    return enemy.shots.some(function (shot: ITarget) {
       return collision(ship, shot)
     })
   })
 }
 
-function collision(target1, target2) {
+function collision(target1: ITarget, target2: ITarget): boolean {
   return (target1.x > target2.x - 20 && target1.x < target2.x + 20) &&
     (target1.y > target2.y - 20 && target1.y < target2.y + 20)
 }
 
-function paintScore(score) {
+function paintScore(score: number): void {
   // console.log("score", score)
   ctx.fillStyle = '#ffffff'
   ctx.font = 'bold 26px sans-serif'
   ctx.fillText('Score: ' + score, 40, 43)
 }
 
-function drawTriangle(x: number, y: number, width: number, color: string, direction: "up" | "down") {
+function drawTriangle(x: number, y: number, width: number, color: string, direction: "up" | "down"): void {
   ctx.fillStyle = color
   ctx.beginPath()
   ctx.moveTo(x - width, y)
@@ -66,12 +87,12 @@ function drawTriangle(x: number, y: number, width: number, color: string, direct
   ctx.fill()
 }
 
-function paintSpaceShip(x, y) {
+function paintSpaceShip(x: number, y: number): void {
   drawTriangle(x, y, 20, '#ff0000', 'up')
 }
 
-function paintEnemies(enemies) {
-  enemies.forEach(function (enemy) {
+function paintEnemies(enemies: IEnemy[]): void {
+  enemies.forEach(function (enemy: IEnemy) {
     enemy.y += 5
     enemy.x += getRandomInt(-15, 15)
 
@@ -79,7 +100,7 @@ function paintEnemies(enemies) {
       drawTriangle(enemy.x, enemy.y, 20, '#00ff00', 'down')
     }
 
-    enemy.shots.forEach(function (shot) {
+    enemy.shots.forEach(function (shot: ITarget) {
       shot.y += SHOOTING_SPEED
       drawTriangle(shot.x, shot.y, 5, '#00ffff', 'down')
     })
@@ -88,8 +109,8 @@ function paintEnemies(enemies) {
 
 const SHOOTING_SPEED = 15
 const SCORE_INCREASE = 15
-function paintHeroShots(heroShots, enemies) {
-  heroShots.forEach(function (shot, i) {
+function paintHeroShots(heroShots, enemies): void {
+  heroShots.forEach(function (shot: ITarget, i: number) {
     let enemies_length
     try {
       enemies_length = enemies.length
@@ -143,10 +164,12 @@ const SpaceShip = mouseMove
   })
   .startWith({x: canvas.width / 2, y: HERO_Y})
 
+/*
 function isVisible(obj) {
   return obj.x > -40 && obj.x < canvas.width + 40 &&
     obj.y > -40 && obj.y < canvas.height + 40
 }
+ */
 
 const ENEMY_FREQ = 1500
 const ENEMY_SHOOTING_FREQ = 750
