@@ -9,7 +9,10 @@ SystemJS.config({
     "bundles": {
       "build.js": [
         "reactive-programming-with-rxjs-jspm/app.ts",
-        "reactive-programming-with-rxjs-jspm/spaceship/spaceship.ts",
+        "reactive-programming-with-rxjs-jspm/earthquake/testscheduler.ts",
+        "npm:rx-dom@7.0.3/index.js",
+        "npm:rx-dom@7.0.3.json",
+        "npm:rx-dom@7.0.3/dist/rx.dom.js",
         "npm:rx@4.1.0/index.js",
         "npm:rx@4.1.0.json",
         "npm:jspm-nodelibs-process@0.2.1/process.js",
@@ -320,8 +323,10 @@ SystemJS.config({
     "npm:*.json"
   ],
   map: {
+    "@types/qunit": "npm:@types/qunit@1.16.31",
     "@types/rx-dom": "npm:@types/rx-dom@7.0.0",
     "leaflet": "github:Leaflet/Leaflet@0.7.3",
+    "qunit": "github:qunitjs/qunit@1.11.0",
     "rx-dom": "npm:rx-dom@7.0.3",
     "@types/loglevel": "npm:@types/loglevel@1.4.29",
     "loglevel": "npm:loglevel@1.4.1",

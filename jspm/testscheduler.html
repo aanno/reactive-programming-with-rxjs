@@ -1,0 +1,30 @@
+<!doctype html>
+<meta charset="utf-8">
+<head>
+  <script src="jspm_packages/system.js"></script>
+  <script src="jspm.config.js"></script>
+  <link rel="stylesheet" href="jspm_packages/github/qunitjs/qunit@1.11.0/qunit/qunit.css">
+</head>
+<body>
+<div id="container"></div>
+<script>
+  SystemJS.import("qunit").then(function (m) {
+    // SystemJS.import('src/app.ts').then(function() {
+    console.log("Ready to create element", m, window)
+    var div = document.createElement("div")
+    div.setAttribute("id", "qunit")
+
+    var body = document.getElementsByTagName('body')[0]
+    body.appendChild(div)
+
+    m.QUnit.test("a basic test example", function (assert) {
+      console.log("inside test")
+      var value = "hello"
+      assert.equal(value, "hello", "We expect value to be hello")
+    })
+
+    console.log("end of embedded script")
+    // })
+  })
+</script>
+</body>
