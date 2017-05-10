@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/loglevel": "^1.4.29",
     "jspm": "^0.17.0-beta.41",
     "leaflet": "^0.7.3",
     "rx-dom": "^7.0.3",
@@ -72,5 +73,8 @@
         }
       }
     }
+  },
+  "dependencies": {
+    "@types/loglevel": "^1.4.29"
   }
 }
