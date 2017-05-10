@@ -117,7 +117,8 @@ function paintEnemies(enemies: IEnemy[]): void {
 }
 
 const SHOOTING_SPEED = 15
-const SCORE_INCREASE = 15
+const SCORE_INCREASE = 10
+
 function paintHeroShots(heroShots: ITarget[], enemies: IEnemy[]): void {
   heroShots.forEach(function (shot: ITarget, i: number) {
     let enemies_length
@@ -167,6 +168,7 @@ const StarStream: Rx.Observable<IStar[]> = Rx.Observable.range(1, STAR_NUMBER)
   })
 
 const HERO_Y = canvas.height - 30
+
 const mouseMove = Rx.Observable.fromEvent(canvas, 'mousemove')
 const SpaceShip: Rx.Observable<IShip> = mouseMove
   .map(function (event: MouseEvent) {
@@ -183,6 +185,7 @@ function isVisible(obj) {
 
 const ENEMY_FREQ = 1500
 const ENEMY_SHOOTING_FREQ = 750
+
 const Enemies: Rx.Observable<IEnemy[]> = Rx.Observable.interval(ENEMY_FREQ)
   .scan(function (enemyArray: IEnemy[]) {
     const enemy: IEnemy = {
