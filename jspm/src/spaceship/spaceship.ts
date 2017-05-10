@@ -7,6 +7,7 @@
  * Visit http://www.pragmaticprogrammer.com/titles/smreactjs for more book information.
 ***/
 import Rx from "rx"
+import log from "loglevel"
 
 var canvas = document.createElement('canvas');
 var ctx = canvas.getContext("2d");
@@ -50,6 +51,7 @@ function collision(target1, target2) {
 }
 
 function paintScore(score) {
+  // console.log("score", score)
   ctx.fillStyle = '#ffffff';
   ctx.font = 'bold 26px sans-serif';
   ctx.fillText('Score: ' + score, 40, 43);
@@ -200,18 +202,19 @@ function renderScene(actors) {
   paintSpaceShip(actors.spaceship.x, actors.spaceship.y);
   paintEnemies(actors.enemies);
   paintHeroShots(actors.heroShots, actors.enemies);
-  paintScore(actors.heroShots);
+  paintScore(actors.score);
 }
 
 Rx.Observable.combineLatest(
     StarStream, SpaceShip, Enemies, HeroShots, score,
     function(stars, spaceship, enemies, heroShots) {
+      // console.log("score", score)
       return {
         stars: stars,
         spaceship: spaceship,
         enemies: enemies,
         heroShots: heroShots,
-        score: score
+        score: score,
       };
     })
   .sample(SPEED)

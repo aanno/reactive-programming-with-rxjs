@@ -9,13 +9,7 @@ SystemJS.config({
     "bundles": {
       "build.js": [
         "reactive-programming-with-rxjs-jspm/app.ts",
-        "reactive-programming-with-rxjs-jspm/earthquake/code.ts",
-        "reactive-programming-with-rxjs-jspm/earthquake/config.ts",
-        "github:Leaflet/Leaflet@0.7.3/dist/leaflet-src.js",
-        "github:Leaflet/Leaflet@0.7.3.json",
-        "npm:rx-dom@7.0.3/index.js",
-        "npm:rx-dom@7.0.3.json",
-        "npm:rx-dom@7.0.3/dist/rx.dom.js",
+        "reactive-programming-with-rxjs-jspm/spaceship/spaceship.ts",
         "npm:rx@4.1.0/index.js",
         "npm:rx@4.1.0.json",
         "npm:jspm-nodelibs-process@0.2.1/process.js",
