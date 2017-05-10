@@ -8,6 +8,7 @@
 ***/
 import Rx from "rx-dom"
 import L from "leaflet"
+import {QUAKE_URL, map} from "./config.ts"
 
 var codeLayers = {};
 var quakeLayer = L.layerGroup([]).addTo(map);
