@@ -5,3 +5,4 @@ build.js.map
 .idea/workspace.xml
 dist/
 declarations/
+*.map
