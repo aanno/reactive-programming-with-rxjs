@@ -19,12 +19,13 @@ interface IShip extends ITarget {
 
 interface IEnemy extends ITarget {
   shots: ITarget[],
+  isDead: boolean,
 }
 
 interface IActors {
   stars: any[],
-  spaceship: ITarget[],
-  enemies: ITarget[],
+  spaceship: IShip,
+  enemies: IEnemy[],
   heroShots: ITarget[],
   score: number,
 }
@@ -44,7 +45,7 @@ function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-function paintStars(stars: any[]) {
+function paintStars(stars: any[]): void {
   ctx.fillStyle = '#000000'
   ctx.fillRect(0, 0, canvas.width, canvas.height)
   ctx.fillStyle = '#ffffff'
@@ -109,7 +110,7 @@ function paintEnemies(enemies: IEnemy[]): void {
 
 const SHOOTING_SPEED = 15
 const SCORE_INCREASE = 15
-function paintHeroShots(heroShots, enemies): void {
+function paintHeroShots(heroShots: ITarget, enemies: IEnemy[]): void {
   heroShots.forEach(function (shot: ITarget, i: number) {
     let enemies_length
     try {
@@ -159,7 +160,7 @@ const StarStream = Rx.Observable.range(1, STAR_NUMBER)
 const HERO_Y = canvas.height - 30
 const mouseMove = Rx.Observable.fromEvent(canvas, 'mousemove')
 const SpaceShip = mouseMove
-  .map(function (event) {
+  .map(function (event: MouseEvent) {
     return {x: event.clientX, y: HERO_Y}
   })
   .startWith({x: canvas.width / 2, y: HERO_Y})
@@ -174,8 +175,8 @@ function isVisible(obj) {
 const ENEMY_FREQ = 1500
 const ENEMY_SHOOTING_FREQ = 750
 const Enemies = Rx.Observable.interval(ENEMY_FREQ)
-  .scan(function (enemyArray) {
-    const enemy = {
+  .scan(function (enemyArray: IEnemy[]) {
+    const enemy: IEnemy = {
       x: parseInt(Math.random() * canvas.width),
       y: -30,
       shots: [],
@@ -191,7 +192,7 @@ const Enemies = Rx.Observable.interval(ENEMY_FREQ)
     enemyArray.push(enemy)
     return enemyArray
       .filter(isVisible)
-      .filter(function (enemy) {
+      .filter(function (enemy: IEnemy) {
         return !(enemy.isDead && enemy.shots.length === 0)
       })
   }, [])
@@ -200,7 +201,7 @@ const playerFiring = Rx.Observable
   .merge(
     Rx.Observable.fromEvent(canvas, 'click'),
     Rx.Observable.fromEvent(canvas, 'keydown')
-      .filter(function (evt) {
+      .filter(function (evt: KeyboardEvent) {
         return evt.keycode === 32
       }),
   )
@@ -240,7 +241,7 @@ function renderScene(actors) {
 
 Rx.Observable.combineLatest(
   StarStream, SpaceShip, Enemies, HeroShots, score,
-  function (stars, spaceship, enemies, heroShots) {
+  function (stars, spaceship: IShip, enemies: IEnemy[], heroShots: ITarget[]): IActors {
     // console.log("score", score)
     return {
       stars: stars,
@@ -251,7 +252,7 @@ Rx.Observable.combineLatest(
     }
   })
   .sample(SPEED)
-  .takeWhile(function (actors) {
+  .takeWhile(function (actors: IActors) {
     return gameOver(actors.spaceship, actors.enemies) === false
   })
   .subscribe(renderScene)
