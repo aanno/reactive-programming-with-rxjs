@@ -290,6 +290,12 @@ SystemJS.config({
     }
   },
   transpiler: "plugin-typescript",
+  typescriptOptions: {
+    "module": "system",
+    "target": "es5",
+    "tsconfig": true,
+    "sourceMap": true
+  },
   packages: {
     "reactive-programming-with-rxjs-jspm": {
       "main": "app.js",
@@ -297,7 +303,13 @@ SystemJS.config({
         "*.js": {
           "loader": "plugin-typescript"
         },
+        "*.jsx": {
+          "loader": "plugin-typescript"
+        },
         "*.ts": {
+          "loader": "plugin-typescript"
+        },
+        "*.tsx": {
           "loader": "plugin-typescript"
         }
       }

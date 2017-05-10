@@ -3,3 +3,5 @@ jspm_packages/
 build.js
 build.js.map
 .idea/workspace.xml
+dist/
+declarations/

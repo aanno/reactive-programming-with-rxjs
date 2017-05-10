@@ -25,13 +25,9 @@
     "strictNullChecks": true,
     "noImplicitAny": true,
     "newLine": "LF",
-    "rootDir": ".",
-    "outDir": "dist",
     "pretty": true,
     "diagnostics": true,
     "listFiles": true,
-    "declaration": true,
-    "declarationDir": "declarations",
     "lib": [
       "DOM",
       "ES2016",
