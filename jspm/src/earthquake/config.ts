@@ -4,8 +4,8 @@ import L from "leaflet"
 export const QUAKE_URL = 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/' +
   'summary/all_day.geojsonp'
 
-function loadJSONP(url) {
-  const script = document.createElement('script')
+function loadJSONP(url: string): void {
+  const script: HTMLScriptElement = document.createElement('script')
   script.src = url
 
   const head = document.getElementsByTagName('head')[0]
