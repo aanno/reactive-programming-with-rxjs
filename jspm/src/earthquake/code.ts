@@ -10,7 +10,7 @@ import Rx from "rx-dom"
 import L from "leaflet"
 import {map, QUAKE_URL} from "./config.ts"
 
-const codeLayers = {}
+const codeLayers: {[key: string]: any} = {}
 const quakeLayer = L.layerGroup([]).addTo(map)
 const identity = Rx.helpers.identity // (1)
 
@@ -63,11 +63,11 @@ function initialize() {
 
   const table: HTMLTableElement = document.getElementById('quakes_info') as HTMLTableElement
 
-  function getRowFromEvent(event) {
+  function getRowFromEvent(event: string) {
     return Rx.Observable
       .fromEvent(table, event)
-      .filter(function (event) { // (1)
-        const el = event.target
+      .filter(function (event: MouseEvent) { // (1)
+        const el: HTMLTableRowElement = event.target as HTMLTableRowElement
         return el.tagName === 'TD' && el.parentNode.id.length
       })
       .pluck('target', 'parentNode') // (2)
@@ -76,7 +76,7 @@ function initialize() {
 
   getRowFromEvent('mouseover')
     .pairwise()
-    .subscribe(function (rows) {
+    .subscribe(function (rows: [HTMLTableRowElement, HTMLTableRowElement]) {
       const prevCircle = quakeLayer.getLayer(codeLayers[rows[0].id])
       const currCircle = quakeLayer.getLayer(codeLayers[rows[1].id])
 
