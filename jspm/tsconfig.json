@@ -43,6 +43,7 @@
     "custom-typings/**/*"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "jspm_packages"
   ]
 }
