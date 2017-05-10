@@ -9,7 +9,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "jspm": "^0.17.0-beta.41"
+    "jspm": "^0.17.0-beta.41",
+    "leaflet": "^0.7.3",
+    "rx-dom": "^7.0.3",
+    "tslib": "^1.7.0",
+    "tslint": "^5.2.0",
+    "typescript": "^2.3.2"
   },
   "jspm": {
     "name": "reactive-programming-with-rxjs-jspm",

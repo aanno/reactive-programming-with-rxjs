@@ -1,0 +1,168 @@
+// https://www.npmjs.com/package/tslint
+{
+  /*
+   * Possible values:
+   * - the name of a built-in config
+   * - the name of an NPM module which has a "main" file that exports a config object
+   * - a relative path to a JSON file
+   */
+  "extends": "tslint:latest",
+  "linterOptions": {
+	// Does not work, see https://github.com/palantir/tslint#type-checking
+	// and https://github.com/palantir/tslint/issues/1445
+	"typeCheck": true
+  },
+  "defaultSeverity": "warning",
+  "rules": {
+    "align": {
+        "options": [
+            "parameters",
+            "statements"
+        ],
+        "severity": "warning"
+    },
+    /*
+    * Any rules specified here will override those from the base config we are extending
+    */
+    // "no-constructor-vars": true
+    "arrow-parens": {
+      "options": true,
+      "severity": "warning"
+    },
+    "ban-types": {
+      "options": [
+          ["Object", "Avoid using the `Object` type. Did you mean `object`?"],
+          ["Function", "Avoid using the `Function` type. Prefer a specific function type, like `() => void`."],
+          ["Boolean", "Avoid using the `Boolean` type. Did you mean `boolean`?"],
+          ["Number", "Avoid using the `Number` type. Did you mean `number`?"],
+          ["String", "Avoid using the `String` type. Did you mean `string`?"],
+          ["Symbol", "Avoid using the `Symbol` type. Did you mean `symbol`?"]
+      ],
+      "severity": "warning"
+    },
+    "curly": {
+      "options": [true],
+      "severity": "warning"
+    },
+    "semicolon": false,
+    "quotemark": "'",
+    "indent": [
+      true,
+      "spaces"
+    ],
+    "member-access": false,
+    "member-ordering": [
+      true,
+      "public-before-private",
+      "static-before-instance",
+      "variables-before-functions"
+    ],
+    "object-literal-sort-keys": false,
+    "object-literal-shorthand": false,
+    "no-require-imports": true,
+    "no-var-requires": true,
+    "no-consecutive-blank-lines": true,
+    "one-variable-per-declaration": {
+      "options": ["ignore-for-loop"],
+      "severity": "warning"
+    },
+    "eofline": true,
+    "linebreak-style": [
+      true,
+      "LF"
+    ],
+    "whitespace": true,
+    "no-trailing-whitespace": true,
+    "typedef-whitespace": true,
+    "trailing-comma": [
+      true,
+      {
+      "multiline": "always",
+      "singleline": "never"
+      }
+    ],
+    "interface-name": true,
+    "class-name": true,
+    "new-parens": true,
+    "label-position": true,
+    // old
+    // "label-undefined": true,
+    "no-console": true,
+    "no-debugger": true,
+    "no-empty": true,
+    "no-invalid-this": true,
+    "no-unsafe-finally": true,
+    // old
+    // "no-unreachable": true,
+    "no-shadowed-variable": true,
+    "no-null-keyword": {
+      "options": true,
+      "severity": "warning"
+    },
+    "no-duplicate-variable": true,
+    // old
+    // "no-duplicate-key": true,
+    "no-eval": true,
+    "no-construct": true,
+    "no-empty-interface": {
+      "options": true,
+      "severity": "warning"
+    },
+    "no-unused-new": true,
+    "no-unused-expression": true,
+    // ?! compiler option
+    // "no-unused-parameters": true,
+    // ?! compiler option
+    // "no-unused-locals": true,
+    // old
+    "no-unused-variable": [true],
+    "no-use-before-declare": true,
+    "no-var-keyword": true,
+    // "only-arrow-functions": false,
+
+    "no-switch-case-fall-through": true,
+    "ordered-imports": false,
+    "prefer-const": {
+      "options": true,
+      "severity": "warning"
+    },
+    "triple-equals": [
+      true,
+      "allow-null-check"
+    ],
+    // old
+    // "use-strict": [ true, "check-function", "check-module" ],
+    // old
+    // "import-destructuring-spacing": true,
+    "variable-name": {
+      "options": [
+        true,
+        "check-format",
+        "allow-leading-underscore",
+        "ban-keywords"
+      ],
+      "severity": "warning"
+    },
+    "one-line": [
+      true,
+      "check-open-brace",
+      "check-catch",
+      "check-else",
+      "check-finally",
+      "check-whitespace"
+    ],
+    "jsdoc-format": true,
+    "comment-format": [
+      true,
+      "check-space"
+    ],
+    "max-line-length": 160
+  },
+  "rulesDirectory": [
+	/*
+	 * A list of relative or absolute paths to directories that contain custom rules.
+	 * See the Custom Rules documentation below for more details.
+	 */
+	// "node_modules/codelyzer"
+  ]
+}

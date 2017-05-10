@@ -1,0 +1,48 @@
+﻿{
+  "docUrl1": "https://www.typescriptlang.org/docs/handbook/tsconfig-json.html",
+  "docUrl2": "https://www.typescriptlang.org/docs/handbook/compiler-options.html",
+  "compilerOptions": {
+    "module": "es6",
+    "target": "es6",
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "allowJs": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noEmit": false,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "preserveConstEnums": true,
+    "alwaysStrict": true,
+    "importHelpers": true,
+    "noImplicitThis": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "newLine": "LF",
+    "rootDir": ".",
+    "outDir": "dist",
+    "pretty": true,
+    "diagnostics": true,
+    "listFiles": true,
+    "declaration": true,
+    "declarationDir": "declarations",
+    "lib": [
+      "DOM",
+      "ES2016",
+      "ScriptHost"
+    ]
+  },
+  "include": [
+    "src/**/*",
+    "custom-typings/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
