@@ -14,20 +14,20 @@ const codeLayers = {}
 const quakeLayer = L.layerGroup([]).addTo(map)
 const identity = Rx.helpers.identity // (1)
 
-function isHovering(element) {
+function isHovering(element: Element): MouseEvent {
   const over = Rx.DOM.mouseover(element).map(identity(true)) // (2)
   const out = Rx.DOM.mouseout(element).map(identity(false)) // (3)
 
   return over.merge(out) // (4)
 }
 
-function makeRow(props) {
-  const row = document.createElement('tr')
+function makeRow(props): HTMLTableRowElement {
+  const row: HTMLTableRowElement = document.createElement('tr')
   row.id = props.net + props.code
 
   const date = new Date(props.time)
   const time = date.toString();
-  [props.place, props.mag, time].forEach(function (text) {
+  [props.place, props.mag, time].forEach(function (text: string) {
     const cell = document.createElement('td')
     cell.textContent = text
     row.appendChild(cell)
@@ -39,7 +39,7 @@ function makeRow(props) {
 function initialize() {
   const quakes = Rx.Observable
     .interval(5000)
-    .flatMap(function () {
+    .flatMap(function (): Rx.Observable<JsonpSuccessResponse> {
       return Rx.DOM.jsonpRequest({
         url: QUAKE_URL,
         jsonpCallback: 'eqfeed_callback',
@@ -61,7 +61,7 @@ function initialize() {
     codeLayers[quake.id] = quakeLayer.getLayerId(circle)
   })
 
-  const table = document.getElementById('quakes_info')
+  const table: HTMLTableElement = document.getElementById('quakes_info') as HTMLTableElement
 
   function getRowFromEvent(event) {
     return Rx.Observable
@@ -85,15 +85,15 @@ function initialize() {
     })
 
   getRowFromEvent('click')
-    .subscribe(function (row) {
-      var circle = quakeLayer.getLayer(codeLayers[row.id])
+    .subscribe(function (row: HTMLTableRowElement) {
+      const circle = quakeLayer.getLayer(codeLayers[row.id])
       map.panTo(circle.getLatLng())
     })
 
   quakes
     .pluck('properties')
     .map(makeRow)
-    .subscribe(function (row) {
+    .subscribe(function (row: HTMLTableRowElement) {
       table.appendChild(row)
     })
 }
