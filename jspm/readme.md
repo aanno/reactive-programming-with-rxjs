@@ -8,14 +8,14 @@ Normalerweise ist es schwierig, zeitabhängige Ereignisse zu testen _ohne_ lange
 zu warten. Die Idee des testscheduler ist es, mit einer 'virtuellen' Zeit zu
 arbeiten. Dazu wird der `TestScheduler` verwendet.
 
-### A.1
+#### A.1
 
 * Macht dir klar, wie die beiden Test Module funkionieren. Baut evt. noch (mehr)
   Logging ein (`console.log` oder besser mit `loglevel`)
 * Innerhalb eines Streams kann man `do` zum Loggen/Debuggen verwenden. Benutzt
   diese Methode.
   
-### A.2
+#### A.2
 
 Das Test Module "Test quake buffering" testet mit `quakeBatches` eine
 vereinfachte Version der earthquake App. Es wäre aber besser, den echten
@@ -34,6 +34,30 @@ gelingt mit:
 
 * observeOn
 * subscribeOn
+
+### B earthquake
+
+#### B.1
+
+* Macht dir klar, wie die Datenstruktur aussieht, die vom Erdbebendienst
+  liefert wird. (Logging, siehe A.1)
+* Lege die entsprechenden TypeScript Typen an.
+* Benutze diese Typen an den entsprechenden Stellen.
+
+#### B.2
+Wenn der Maus Cursor über einer Tabellenreihe steht, soll der entsprechende
+Erdbebenpunkt rot markiert werden.
+
+Tipp 1: <br/>
+Operatoren: pairwise, subscribe
+
+Tipp 2: <br/>
+Das DOM Element des Erdbebenkreises bekommt mittels:
+```typescript
+quakeLayer.getLayer(codeLayers[row.id])
+```
+
+
 
 ## more information
 

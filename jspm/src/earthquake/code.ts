@@ -74,15 +74,11 @@ function initialize() {
       .distinctUntilChanged() // (3)
   }
 
+  /*
+  Aufgabe B.2:
   getRowFromEvent('mouseover')
-    .pairwise()
-    .subscribe(function (rows: [HTMLTableRowElement, HTMLTableRowElement]) {
-      const prevCircle = quakeLayer.getLayer(codeLayers[rows[0].id])
-      const currCircle = quakeLayer.getLayer(codeLayers[rows[1].id])
-
-      prevCircle.setStyle({color: '#0000ff'})
-      currCircle.setStyle({color: '#ff0000'})
-    })
+    .?????
+    */
 
   getRowFromEvent('click')
     .subscribe(function (row: HTMLTableRowElement) {
