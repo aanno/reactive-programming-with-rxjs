@@ -8,7 +8,7 @@
     "start": "jspm bundle src/app.ts -wid",
     "jspm": "jspm",
     "chrome": "/opt/google/chrome/chrome --allow-file-access-from-files",
-    "ts-node": "ts-node"
+    "ts-node": "ts-node -O '{\"module\": \"commonjs\", \"noImplicitAny\": false}'"
   },
   "author": "",
   "license": "ISC",

@@ -6,3 +6,4 @@ build.js.map
 dist/
 declarations/
 *.map
+*.log
