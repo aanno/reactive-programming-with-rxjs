@@ -1,3 +1,4 @@
+import "tslib"
 import log from "loglevel"
 
 // import "./spaceship/spaceship.ts"

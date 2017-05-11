@@ -30,7 +30,9 @@ SystemJS.config({
         "npm:rx@4.1.0/dist/rx.async.js",
         "npm:rx@4.1.0/dist/rx.aggregates.js",
         "npm:loglevel@1.4.1/lib/loglevel.js",
-        "npm:loglevel@1.4.1.json"
+        "npm:loglevel@1.4.1.json",
+        "npm:tslib@1.7.0/tslib.js",
+        "npm:tslib@1.7.0.json"
       ]
     }
   },
@@ -331,7 +333,8 @@ SystemJS.config({
     "@types/loglevel": "npm:@types/loglevel@1.4.29",
     "loglevel": "npm:loglevel@1.4.1",
     "process": "npm:jspm-nodelibs-process@0.2.1",
-    "rx": "npm:rx@4.1.0"
+    "rx": "npm:rx@4.1.0",
+    "tslib": "npm:tslib@1.7.0"
   },
   packages: {
     "npm:@types/rx-dom@7.0.0": {

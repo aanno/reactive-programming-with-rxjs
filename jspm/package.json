@@ -26,7 +26,7 @@
   },
   "jspm": {
     "name": "reactive-programming-with-rxjs-jspm",
-    "main": "app.js",
+    "main": "src/app.ts",
     "dependencies": {
       "@types/loglevel": "npm:@types/loglevel@^1.4.29",
       "@types/qunit": "npm:@types/qunit@1.16.31",
@@ -35,7 +35,8 @@
       "loglevel": "npm:loglevel@^1.4.1",
       "qunit": "github:qunitjs/qunit@1.11.0",
       "rx": "npm:rx@4.1.0",
-      "rx-dom": "npm:rx-dom@^7.0.3"
+      "rx-dom": "npm:rx-dom@^7.0.3",
+      "tslib": "npm:tslib@^1.7.0"
     },
     "devDependencies": {
       "assert": "npm:jspm-nodelibs-assert@^0.2.0",
@@ -65,6 +66,14 @@
         "ignore": [
           "test.js"
         ]
+      },
+      "npm:tslib@1.7.0": {
+        "format": "cjs",
+        "meta": {
+          "tslib.js": {
+            "esModule": true
+          }
+        }
       },
       "npm:typescript@2.3.2": {
         "browser": {},
