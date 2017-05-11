@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "jspm bundle src/app.ts -wid",
     "jspm": "jspm",
-    "chrome": "/opt/google/chrome/chrome --allow-file-access-from-files"
+    "chrome": "/opt/google/chrome/chrome --allow-file-access-from-files",
+    "ts-node": "ts-node"
   },
   "author": "",
   "license": "ISC",

@@ -10,91 +10,91 @@ import Rx from "rx-dom"
 
 const QUnit = (window as any).QUnit
 
-var onNext = Rx.ReactiveTest.onNext; // (1)
-var onCompleted = Rx.ReactiveTest.onCompleted;
-var subscribe = Rx.ReactiveTest.subscribe;
+const onNext = Rx.ReactiveTest.onNext // (1)
+const onCompleted = Rx.ReactiveTest.onCompleted
+const subscribe = Rx.ReactiveTest.subscribe
 
-var scheduler = new Rx.TestScheduler(); // (2)
+const scheduler = new Rx.TestScheduler() // (2)
 
-var quakes = scheduler.createHotObservable( // (3)
+const quakes = scheduler.createHotObservable( // (3)
   onNext(100, { properties: 1 }),
   onNext(300, { properties: 2 }),
   onNext(550, { properties: 3 }),
   onNext(750, { properties: 4 }),
   onNext(1000, { properties: 5 }),
-  onCompleted(1100)
-);
+  onCompleted(1100),
+)
 
 QUnit.test("Test quake buffering", function(assert) { // (4)
-  var results = scheduler.startScheduler(function() { // (5)
+  const results = scheduler.startScheduler(function() { // (5)
     return quakeBatches(scheduler)
   }, {
     created: 0,
     subscribed: 0,
     disposed: 1200
-  });
+  })
 
-  var messages = results.messages; // (6)
-  console.log(results.scheduler === scheduler);
+  const messages = results.messages // (6)
+  console.log(results.scheduler === scheduler)
 
   assert.equal( // (7)
     messages[0].toString(),
     onNext(501, [1, 2]).toString()
-  );
+  )
 
   assert.equal(
     messages[1].toString(),
     onNext(1001, [3, 4, 5]).toString()
-  );
+  )
 
   assert.equal(
     messages[2].toString(),
     onCompleted(1100).toString()
-  );
-});
+  )
+})
 function quakeBatches(scheduler) {
   return quakes.pluck('properties')
     .bufferWithTime(500, null, scheduler || null)
     .filter(function(rows) {
-      return rows.length > 0;
-    });
+      return rows.length > 0
+    })
 }
 
-var onNext = Rx.ReactiveTest.onNext;
+const onNext = Rx.ReactiveTest.onNext
 QUnit.test("Test value order", function(assert) {
-  var scheduler = new Rx.TestScheduler();
-  var subject = scheduler.createColdObservable(
+  const scheduler = new Rx.TestScheduler()
+  const subject = scheduler.createColdObservable(
     onNext(100, 'first'),
     onNext(200, 'second'),
     onNext(300, 'third')
-  );
+  )
 
-  var result = '';
-  subject.subscribe(function(value) { result = value });
+  const result = ''
+  subject.subscribe(function(value) { result = value })
 
-  scheduler.advanceBy(100);
-  assert.equal(result, 'first');
+  scheduler.advanceBy(100)
+  assert.equal(result, 'first')
 
-  scheduler.advanceBy(100);
-  assert.equal(result, 'second');
+  scheduler.advanceBy(100)
+  assert.equal(result, 'second')
 
-  scheduler.advanceBy(100);
-  assert.equal(result, 'third');
-});
+  scheduler.advanceBy(100)
+  assert.equal(result, 'third')
+})
 /*
 quakes
   .pluck('properties')
   .map(makeRow)
   .bufferWithTime(500)
-  .filter(function(rows) { return rows.length > 0; })
+  .filter(function(rows) { return rows.length > 0 })
   .map(function(rows) {
-    var fragment = document.createDocumentFragment();
+    const fragment = document.createDocumentFragment()
     rows.forEach(function(row) {
-      fragment.appendChild(row);
-    });
-    return fragment;
+      fragment.appendChild(row)
+    })
+    return fragment
   })
   .subscribe(function(fragment) {
-    table.appendChild(fragment);
-  });
+    table.appendChild(fragment)
+  })
 */
