@@ -220,23 +220,8 @@ const playerFiring = Rx.Observable
   .sample(200)
   .timestamp()
 
-const HeroShots: Rx.Observable<ITarget> = Rx.Observable
-  .combineLatest(
-    playerFiring,
-    SpaceShip,
-    function (shotEvents, spaceShip: IShip) {
-      return {
-        timestamp: shotEvents.timestamp,
-        x: spaceShip.x,
-      }
-    })
-  .distinctUntilChanged(function (shot: IShot) {
-    return shot.timestamp
-  })
-  .scan(function (shotArray: ITarget[], shot: IShot) {
-    shotArray.push({x: shot.x, y: HERO_Y})
-    return shotArray
-  }, [])
+const HeroShots: Rx.Observable<ITarget[]> = playerFiring
+  .map(() => ([]))
 
 const ScoreSubject: Rx.Subject<number> = new Rx.BehaviorSubject(0)
 const score = ScoreSubject.scan(function (prev: number, cur: number) {

@@ -57,7 +57,39 @@ Das DOM Element des Erdbebenkreises bekommt mittels:
 quakeLayer.getLayer(codeLayers[row.id])
 ```
 
+#### B.3
+Suche einen alternativen Erdbebenservice und versuche diesen anzubinden.
 
+* http://www.seismicportal.eu
+* https://www.programmableweb.com/category/earthquakes/api
+
+### C spaceship
+
+#### C.1
+
+Das Spielerraumschiff schießt ja gar nicht!
+
+* Implementiere `HeroShots` geeignet!
+* Frage dich, wovon das Schießen abhängt.
+* Warum wird bei `playerFiring` timestamp und sample benutzt?
+
+Tipp: <br/>
+Operatoren: combineLatest, distinctUntilChanged, scan
+
+#### C.2
+
+* Der Score ist kaputt.
+* Mehr Treffer in kurzer Zeit sollten zu mehr Punkten führen.
+* Die Gegner sollten mehr zufällig feuern.
+
+#### C.3
+
+Das Raumschiff kann sich viel zu schnell bewegen! Begrenze die Geschwindigkeit!
+
+#### C.4
+
+Für einen Parallaxe Effekt, arbeite mit mehreren Sternenfeldern, die sich mit
+unterschiedlicher Geschwindigkeit bewegen.
 
 ## more information
 
