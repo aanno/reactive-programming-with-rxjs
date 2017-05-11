@@ -76,7 +76,7 @@ QUnit.test("Test value order", function(assert: QUnitAssert) {
     onNext(300, "third"),
   )
 
-  const result = ""
+  let result = ""
   subject.subscribe(function(value: string) { result = value })
 
   scheduler.advanceBy(100)

@@ -118,7 +118,7 @@
     "no-unused-variable": [true],
     "no-use-before-declare": true,
     "no-var-keyword": true,
-    // "only-arrow-functions": false,
+    "only-arrow-functions": false,
 
     "no-switch-case-fall-through": true,
     "ordered-imports": false,
