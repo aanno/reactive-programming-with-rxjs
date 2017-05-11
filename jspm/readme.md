@@ -52,7 +52,7 @@ Tipp 1: <br/>
 Operatoren: pairwise, subscribe
 
 Tipp 2: <br/>
-Das DOM Element des Erdbebenkreises bekommt mittels:
+Das DOM Element des Erdbebenkreises bekommt man mittels:
 ```typescript
 quakeLayer.getLayer(codeLayers[row.id])
 ```
