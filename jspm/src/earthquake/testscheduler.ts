@@ -16,7 +16,13 @@ const subscribe = Rx.ReactiveTest.subscribe
 
 const scheduler = new Rx.TestScheduler() // (2)
 
-const quakes = scheduler.createHotObservable( // (3)
+type PropertiesType = number
+
+interface IDut {
+  properties: PropertiesType,
+}
+
+const quakes: Rx.Observable<IDut> = scheduler.createHotObservable( // (3)
   onNext(100, { properties: 1 }),
   onNext(300, { properties: 2 }),
   onNext(550, { properties: 3 }),
@@ -25,13 +31,13 @@ const quakes = scheduler.createHotObservable( // (3)
   onCompleted(1100),
 )
 
-QUnit.test("Test quake buffering", function(assert) { // (4)
+QUnit.test("Test quake buffering", function(assert: QUnitAssert) { // (4)
   const results = scheduler.startScheduler(function() { // (5)
     return quakeBatches(scheduler)
   }, {
     created: 0,
     subscribed: 0,
-    disposed: 1200
+    disposed: 1200,
   })
 
   const messages = results.messages // (6)
@@ -52,38 +58,39 @@ QUnit.test("Test quake buffering", function(assert) { // (4)
     onCompleted(1100).toString()
   )
 })
-function quakeBatches(scheduler) {
-  return quakes.pluck('properties')
+
+function quakeBatches(scheduler: Rx.IScheduler): PropertiesType[] {
+  return quakes.pluck("properties")
     .bufferWithTime(500, null, scheduler || null)
-    .filter(function(rows) {
+    .filter(function(rows: PropertiesType[]) {
       return rows.length > 0
     })
 }
 
 const onNext = Rx.ReactiveTest.onNext
-QUnit.test("Test value order", function(assert) {
-  const scheduler = new Rx.TestScheduler()
+QUnit.test("Test value order", function(assert: QUnitAssert) {
+  const scheduler: Rx.IScheduler = new Rx.TestScheduler()
   const subject = scheduler.createColdObservable(
-    onNext(100, 'first'),
-    onNext(200, 'second'),
-    onNext(300, 'third')
+    onNext(100, "first"),
+    onNext(200, "second"),
+    onNext(300, "third"),
   )
 
-  const result = ''
-  subject.subscribe(function(value) { result = value })
+  const result = ""
+  subject.subscribe(function(value: string) { result = value })
 
   scheduler.advanceBy(100)
-  assert.equal(result, 'first')
+  assert.equal(result, "first")
 
   scheduler.advanceBy(100)
-  assert.equal(result, 'second')
+  assert.equal(result, "second")
 
   scheduler.advanceBy(100)
-  assert.equal(result, 'third')
+  assert.equal(result, "third")
 })
 /*
 quakes
-  .pluck('properties')
+  .pluck("properties")
   .map(makeRow)
   .bufferWithTime(500)
   .filter(function(rows) { return rows.length > 0 })
