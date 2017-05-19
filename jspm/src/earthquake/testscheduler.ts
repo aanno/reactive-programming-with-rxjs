@@ -42,20 +42,22 @@ QUnit.test("Test quake buffering", function(assert: QUnitAssert) { // (4)
 
   const messages = results.messages // (6)
   console.log(results.scheduler === scheduler)
+  console.log("results", results)
+  console.log("messages", results.messages.map((m: any) => m.toString()))
 
   assert.equal( // (7)
     messages[0].toString(),
-    onNext(501, [1, 2]).toString()
+    onNext(501, [1, 2]).toString(),
   )
 
   assert.equal(
     messages[1].toString(),
-    onNext(1001, [3, 4, 5]).toString()
+    onNext(1001, [3, 4, 5]).toString(),
   )
 
   assert.equal(
     messages[2].toString(),
-    onCompleted(1100).toString()
+    onCompleted(1100).toString(),
   )
 })
 
@@ -67,7 +69,7 @@ function quakeBatches(scheduler: Rx.IScheduler): PropertiesType[] {
     })
 }
 
-const onNext = Rx.ReactiveTest.onNext
+// const onNext = Rx.ReactiveTest.onNext
 QUnit.test("Test value order", function(assert: QUnitAssert) {
   const scheduler: Rx.IScheduler = new Rx.TestScheduler()
   const subject = scheduler.createColdObservable(
@@ -105,3 +107,49 @@ quakes
     table.appendChild(fragment)
   })
 */
+
+QUnit.test("Cold observable test", function(assert: QUnitAssert) {
+  const scheduler: Rx.IScheduler = new Rx.TestScheduler()
+  const subject = scheduler.createColdObservable(
+    onNext(100, "first"),
+    onNext(200, "second"),
+    onNext(300, "third"),
+    onCompleted(400)
+  )
+
+  let result: string = ""
+  let result2: string = ""
+  subject.subscribe(
+    function(value: string) { result = value },
+    function(err: any) { result = "Error: " + err.toString()},
+    function () { result = "completed!" })
+  subject.delay(100, scheduler).subscribe(
+    function(value: string) { result2 = value },
+    function (err: any) { result2 = "Error: " + err.toString()},
+    function () { result2 = "completed" })
+
+  scheduler.advanceBy(100)
+  console.log("after 100", result, result2)
+  assert.equal(result, "first")
+  assert.equal(result2, "")
+
+  scheduler.advanceBy(100)
+  console.log("after 200", result, result2)
+  assert.equal(result, "second")
+  assert.equal(result2, "first")
+
+  scheduler.advanceBy(100)
+  console.log("after 300", result, result2)
+  assert.equal(result, "third")
+  assert.equal(result2, "second")
+
+  scheduler.advanceBy(100)
+  console.log("after 400", result, result2)
+  assert.equal(result, "completed")
+  assert.equal(result2, "third")
+
+  scheduler.advanceBy(100)
+  console.log("after 500", result, result2)
+  assert.equal(result, "completed")
+  assert.equal(result2, "completed")
+})
