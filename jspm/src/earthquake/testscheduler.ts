@@ -108,24 +108,29 @@ quakes
   })
 */
 
-QUnit.test("Cold observable test", function(assert: QUnitAssert) {
+QUnit.test("Test scheme only for cold observable", function(assert: QUnitAssert) {
   const scheduler: Rx.IScheduler = new Rx.TestScheduler()
+
+  /**
+   * As you could see, share() doesn't alter the semantic of the test!
+   * Hence this test scheme is unsuited for hot observables!
+   */
   const subject = scheduler.createColdObservable(
     onNext(100, "first"),
     onNext(200, "second"),
     onNext(300, "third"),
-    onCompleted(400))
+    onCompleted(400)).share()
 
   let result: string = ""
   let result2: string = ""
   subject.subscribe(
     function(value: string) { result = value },
     function(err: any) { result = "Error: " + err.toString()},
-    function () { result = "completed" })
+    function() { result = "completed" })
   subject.delay(100, scheduler).subscribe(
     function(value: string) { result2 = value },
-    function (err: any) { result2 = "Error: " + err.toString()},
-    function () { result2 = "completed" })
+    function(err: any) { result2 = "Error: " + err.toString()},
+    function() { result2 = "completed" })
 
   scheduler.advanceBy(100)
   console.log("after 100", result, result2)
@@ -161,6 +166,33 @@ QUnit.test("Hot observable test", function(assert: QUnitAssert) {
     onNext(300, "third"),
     onCompleted(400))
 
+  const results = scheduler.startScheduler(function() { // (5)
+    return subject
+  }, {
+    created: 0,
+    subscribed: 0,
+    disposed: 500,
+  })
+
+  const messages = results.messages // (6)
+  console.log(results.scheduler === scheduler)
+  console.log("results", results)
+  console.log("messages", results.messages.map((m: any) => m.toString()))
+
+  const results2 = scheduler.startScheduler(function() { // (5)
+    return subject
+  }, {
+    created: 0,
+    subscribed: 100,
+    disposed: 500,
+  })
+
+  const messages2 = results2.messages // (6)
+  console.log(results2.scheduler === scheduler)
+  console.log("results2", results2)
+  console.log("messages2", results2.messages.map((m: any) => m.toString()))
+
+  /*
   let result: string = ""
   let result2: string = ""
   subject.subscribe(
@@ -196,4 +228,5 @@ QUnit.test("Hot observable test", function(assert: QUnitAssert) {
   console.log("after 500", result, result2)
   assert.equal(result, "completed")
   // assert.equal(result2, "completed")
+   */
 })
