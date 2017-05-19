@@ -22,18 +22,18 @@ interface IDut {
   properties: PropertiesType,
 }
 
-const quakes: Rx.Observable<IDut> = scheduler.createHotObservable( // (3)
-  onNext(100, { properties: 1 }),
-  onNext(300, { properties: 2 }),
-  onNext(550, { properties: 3 }),
-  onNext(750, { properties: 4 }),
-  onNext(1000, { properties: 5 }),
-  onCompleted(1100),
-)
-
 QUnit.test("Test quake buffering", function(assert: QUnitAssert) { // (4)
+  const quakes: Rx.Observable<IDut> = scheduler.createHotObservable( // (3)
+    onNext(100, { properties: 1 }),
+    onNext(300, { properties: 2 }),
+    onNext(550, { properties: 3 }),
+    onNext(750, { properties: 4 }),
+    onNext(1000, { properties: 5 }),
+    onCompleted(1100),
+  )
+
   const results = scheduler.startScheduler(function() { // (5)
-    return quakeBatches(scheduler)
+    return quakeBatches(quakes, scheduler)
   }, {
     created: 0,
     subscribed: 0,
@@ -61,7 +61,7 @@ QUnit.test("Test quake buffering", function(assert: QUnitAssert) { // (4)
   )
 })
 
-function quakeBatches(scheduler: Rx.IScheduler): PropertiesType[] {
+function quakeBatches(quakes: Rx.Observable<IDut>, scheduler: Rx.IScheduler): PropertiesType[] {
   return quakes.pluck("properties")
     .bufferWithTime(500, null, scheduler || null)
     .filter(function(rows: PropertiesType[]) {
@@ -114,15 +114,14 @@ QUnit.test("Cold observable test", function(assert: QUnitAssert) {
     onNext(100, "first"),
     onNext(200, "second"),
     onNext(300, "third"),
-    onCompleted(400)
-  )
+    onCompleted(400))
 
   let result: string = ""
   let result2: string = ""
   subject.subscribe(
     function(value: string) { result = value },
     function(err: any) { result = "Error: " + err.toString()},
-    function () { result = "completed!" })
+    function () { result = "completed" })
   subject.delay(100, scheduler).subscribe(
     function(value: string) { result2 = value },
     function (err: any) { result2 = "Error: " + err.toString()},
@@ -152,4 +151,49 @@ QUnit.test("Cold observable test", function(assert: QUnitAssert) {
   console.log("after 500", result, result2)
   assert.equal(result, "completed")
   assert.equal(result2, "completed")
+})
+
+QUnit.test("Hot observable test", function(assert: QUnitAssert) {
+  const scheduler: Rx.IScheduler = new Rx.TestScheduler()
+  const subject = scheduler.createHotObservable(
+    onNext(100, "first"),
+    onNext(200, "second"),
+    onNext(300, "third"),
+    onCompleted(400))
+
+  let result: string = ""
+  let result2: string = ""
+  subject.subscribe(
+    function(value: string) { result = value },
+    function(err: any) { result = "Error: " + err.toString()},
+    function () { result = "completed" })
+  subject.delay(100, scheduler).subscribe(
+    function(value: string) { result2 = value },
+    function (err: any) { result2 = "Error: " + err.toString()},
+    function () { result2 = "completed" })
+
+  scheduler.advanceBy(100)
+  console.log("after 100", result, result2)
+  assert.equal(result, "first")
+  // assert.equal(result2, "")
+
+  scheduler.advanceBy(100)
+  console.log("after 200", result, result2)
+  assert.equal(result, "second")
+  // assert.equal(result2, "first")
+
+  scheduler.advanceBy(100)
+  console.log("after 300", result, result2)
+  assert.equal(result, "third")
+  // assert.equal(result2, "second")
+
+  scheduler.advanceBy(100)
+  console.log("after 400", result, result2)
+  assert.equal(result, "completed")
+  // assert.equal(result2, "third")
+
+  scheduler.advanceBy(100)
+  console.log("after 500", result, result2)
+  assert.equal(result, "completed")
+  // assert.equal(result2, "completed")
 })
