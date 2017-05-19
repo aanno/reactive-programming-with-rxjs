@@ -158,75 +158,42 @@ QUnit.test("Test scheme only for cold observable", function(assert: QUnitAssert)
   assert.equal(result2, "completed")
 })
 
-QUnit.test("Hot observable test", function(assert: QUnitAssert) {
+function testPipeline(observable: Rx.Observable<any>, scheduler: Rx.IScheduler): Rx.Observable<any> {
+  // return observable.delay(100, scheduler)
+  return observable.do(function(el: any) {
+    console.log("do", el)
+    if (el === "second") {
+      observable.subscribe(function(value: any) {
+        console.log("second subscription", value)
+      })
+      console.log("added subscription")
+    }
+  })
+}
+QUnit.test("Test scheme for cold AND hot observable", function(assert: QUnitAssert) {
+  expect(0)
+
   const scheduler: Rx.IScheduler = new Rx.TestScheduler()
-  const subject = scheduler.createHotObservable(
+  /*
+   * Try with createColdObservable, createHotObservable,
+   * and with and without .share()!
+   */
+  const subject = scheduler.createColdObservable(
     onNext(100, "first"),
     onNext(200, "second"),
     onNext(300, "third"),
-    onCompleted(400))
+    onCompleted(400)).share()
 
   const results = scheduler.startScheduler(function() { // (5)
-    return subject
+    return testPipeline(subject, scheduler)
   }, {
     created: 0,
     subscribed: 0,
-    disposed: 500,
+    disposed: 800,
   })
 
   const messages = results.messages // (6)
   console.log(results.scheduler === scheduler)
   console.log("results", results)
   console.log("messages", results.messages.map((m: any) => m.toString()))
-
-  const results2 = scheduler.startScheduler(function() { // (5)
-    return subject
-  }, {
-    created: 0,
-    subscribed: 100,
-    disposed: 500,
-  })
-
-  const messages2 = results2.messages // (6)
-  console.log(results2.scheduler === scheduler)
-  console.log("results2", results2)
-  console.log("messages2", results2.messages.map((m: any) => m.toString()))
-
-  /*
-  let result: string = ""
-  let result2: string = ""
-  subject.subscribe(
-    function(value: string) { result = value },
-    function(err: any) { result = "Error: " + err.toString()},
-    function () { result = "completed" })
-  subject.delay(100, scheduler).subscribe(
-    function(value: string) { result2 = value },
-    function (err: any) { result2 = "Error: " + err.toString()},
-    function () { result2 = "completed" })
-
-  scheduler.advanceBy(100)
-  console.log("after 100", result, result2)
-  assert.equal(result, "first")
-  // assert.equal(result2, "")
-
-  scheduler.advanceBy(100)
-  console.log("after 200", result, result2)
-  assert.equal(result, "second")
-  // assert.equal(result2, "first")
-
-  scheduler.advanceBy(100)
-  console.log("after 300", result, result2)
-  assert.equal(result, "third")
-  // assert.equal(result2, "second")
-
-  scheduler.advanceBy(100)
-  console.log("after 400", result, result2)
-  assert.equal(result, "completed")
-  // assert.equal(result2, "third")
-
-  scheduler.advanceBy(100)
-  console.log("after 500", result, result2)
-  assert.equal(result, "completed")
-  // assert.equal(result2, "completed")
-   */
 })
