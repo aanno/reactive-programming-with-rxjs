@@ -1,3 +1,29 @@
+### Changes in this github fork
+
+1. Hosted at https://github.com/aanno/reactive-programming-with-rxjs
+1. Using jspm for the 3 big examples
+   * spaceship
+   * earthquake
+   * tests with testscheduler
+1. The 3 examples are fully converted to **es6/typescript**.
+
+### How to use the jspm based examples
+
+1. Make `./jspm` your working directory: `cd <path_to>/jspm`
+1. Edit the 'main' import of `./jspm/src/app.ts` to choose the example to run (see above)
+1. Start chrome browser (with --allow-file-access-from-files) hack by `npm run chrome`
+1. Start jspm compilation by `npm start`
+1. Direct your browser to the `*.html` of your example:
+   * `<path_to>/jspm/spaceship.html`
+   * `<path_to>/jspm/earthquake.html`
+   * `<path_to>/jspm/testscheduler.html`
+1. Have fun!
+
+### TODOs
+
+1. This is a very simple jspm solution without an server. It would be better to use 
+   a full blown solution like https://github.com/piotrwitek/react-redux-typescript-starter-kit
+
 # Reactive Programming with RxJS
 ##### Untangle Your Asynchronous JavaScript Code
 ###### by Sergi Mansilla

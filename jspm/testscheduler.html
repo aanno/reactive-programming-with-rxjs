@@ -16,11 +16,13 @@
   SystemJS.import('src/app.ts').then(function () {
     console.log("Ready", window)
 
+    /*
     QUnit.test("a basic test example", function (assert) {
       console.log("inside test")
       var value = "hello"
       assert.equal(value, "hello", "We expect value to be hello")
     })
+     */
 
     QUnit.load()
     QUnit.start()

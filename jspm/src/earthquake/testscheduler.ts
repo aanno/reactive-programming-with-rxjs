@@ -22,18 +22,18 @@ interface IDut {
   properties: PropertiesType,
 }
 
-const quakes: Rx.Observable<IDut> = scheduler.createHotObservable( // (3)
-  onNext(100, { properties: 1 }),
-  onNext(300, { properties: 2 }),
-  onNext(550, { properties: 3 }),
-  onNext(750, { properties: 4 }),
-  onNext(1000, { properties: 5 }),
-  onCompleted(1100),
-)
-
 QUnit.test("Test quake buffering", function(assert: QUnitAssert) { // (4)
+  const quakes: Rx.Observable<IDut> = scheduler.createHotObservable( // (3)
+    onNext(100, { properties: 1 }),
+    onNext(300, { properties: 2 }),
+    onNext(550, { properties: 3 }),
+    onNext(750, { properties: 4 }),
+    onNext(1000, { properties: 5 }),
+    onCompleted(1100),
+  )
+
   const results = scheduler.startScheduler(function() { // (5)
-    return quakeBatches(scheduler)
+    return quakeBatches(quakes, scheduler)
   }, {
     created: 0,
     subscribed: 0,
@@ -42,24 +42,26 @@ QUnit.test("Test quake buffering", function(assert: QUnitAssert) { // (4)
 
   const messages = results.messages // (6)
   console.log(results.scheduler === scheduler)
+  console.log("results", results)
+  console.log("messages", results.messages.map((m: any) => m.toString()))
 
   assert.equal( // (7)
     messages[0].toString(),
-    onNext(501, [1, 2]).toString()
+    onNext(501, [1, 2]).toString(),
   )
 
   assert.equal(
     messages[1].toString(),
-    onNext(1001, [3, 4, 5]).toString()
+    onNext(1001, [3, 4, 5]).toString(),
   )
 
   assert.equal(
     messages[2].toString(),
-    onCompleted(1100).toString()
+    onCompleted(1100).toString(),
   )
 })
 
-function quakeBatches(scheduler: Rx.IScheduler): PropertiesType[] {
+function quakeBatches(quakes: Rx.Observable<IDut>, scheduler: Rx.IScheduler): PropertiesType[] {
   return quakes.pluck("properties")
     .bufferWithTime(500, null, scheduler || null)
     .filter(function(rows: PropertiesType[]) {
@@ -67,7 +69,7 @@ function quakeBatches(scheduler: Rx.IScheduler): PropertiesType[] {
     })
 }
 
-const onNext = Rx.ReactiveTest.onNext
+// const onNext = Rx.ReactiveTest.onNext
 QUnit.test("Test value order", function(assert: QUnitAssert) {
   const scheduler: Rx.IScheduler = new Rx.TestScheduler()
   const subject = scheduler.createColdObservable(
