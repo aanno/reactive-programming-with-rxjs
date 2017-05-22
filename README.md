@@ -19,6 +19,11 @@
    * `<path_to>/jspm/testscheduler.html`
 1. Have fun!
 
+### TODOs
+
+1. This is a very simple jspm solution without an server. It would be better to use 
+   a full blown solution like https://github.com/piotrwitek/react-redux-typescript-starter-kit
+
 # Reactive Programming with RxJS
 ##### Untangle Your Asynchronous JavaScript Code
 ###### by Sergi Mansilla
